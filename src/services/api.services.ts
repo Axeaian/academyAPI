@@ -4,7 +4,7 @@ import { db } from "../db/mysql.config";
 import { Student } from "../models/Student";
 import { Teacher } from "../models/Teacher";
 
-export class ApiService {
+export default class ApiService {
     constructor() {
     }
     private readonly GET_STUDENTS_QUERY = `select s.email as email from TeacherToStudent ts join Teachers t on t.id = ts.teacherid join Students s on s.id = ts.studentid where t.email in (:teachers)`;
@@ -28,8 +28,8 @@ export class ApiService {
     async getCommonStudents(teachers: string[], res: Response): Promise<Response> {
         try {
             //remove empty emails from array
-            let teachersArr = teachers.filter(e => e);
-            let query = this.GET_STUDENTS_QUERY + ((teachersArr.length === 1) ? `;` : ` group by s.email having count(*) > 1;`);
+            let teachersArr: string[] = teachers.filter(e => e);
+            let query: string = this.GET_STUDENTS_QUERY + ((teachersArr.length === 1) ? `;` : ` group by s.email having count(*) > 1;`);
             const results = await db.query(query, {
                 replacements: { teachers: teachersArr },
                 type: QueryTypes.SELECT

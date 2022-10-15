@@ -1,21 +1,26 @@
 import superTestRequest from 'supertest';
 import { app } from '../src/app';
+import { db } from '../src/db/mysql.config';
+import { sync } from '../src/models/index'
 
+beforeAll(() => {
+    sync;
+})
 describe('POST /api/register', () => {
-    // test('should return 204 with correct request', async () => {
-    //     let request = {
-    //         "teacher": "teacher1@testacademy.com",
-    //         "students": [
-    //             "janet@testacademy.com",
-    //             "bryan@testacademy.com",
-    //         ]
-    //     }
-    //     await superTestRequest(app)
-    //         .post('/api/register')
-    //         .set('Content-Type', 'application/json')
-    //         .send(request)
-    //         .expect(204);
-    // });
+    test('should return 204 with correct request', async () => {
+        let request = {
+            "teacher": "teacher1@testacademy.com",
+            "students": [
+                "janet@testacademy.com",
+                "bryan@testacademy.com",
+            ]
+        }
+        await superTestRequest(app)
+            .post('/api/register')
+            .set('Content-Type', 'application/json')
+            .send(request)
+            .expect(204);
+    });
 
     test('should return invalid with malformed request (missing param)', function () {
         let request = {
@@ -239,3 +244,6 @@ describe('GET /api/retrievefornotifications', () => {
     });
 })
 
+afterAll(() => {
+    db.close();
+})

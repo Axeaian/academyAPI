@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import querystring from 'node:querystring';
-import { ApiService } from "../services/api.services";
+import ApiService from "../services/api.services";
 
 
 const apiService = new ApiService();
