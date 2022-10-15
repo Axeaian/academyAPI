@@ -90,7 +90,7 @@ export default class ApiService {
         if (results.length !== 0) {
             results.forEach((student: { email: string; }) => studentsEmail.push(student.email))
         }
-        console.log(studentsEmail);
+
         const uniqueStudents = [...new Set(studentsEmail)];
 
         //Check if students retrieved is suspended
